@@ -1,3 +1,6 @@
+// truffle migrate --network bsc -f 2 --dry-run 
+// truffle run verify TheToken@0xC872AA87C7536325DA00668D8a0e4770B2dB7cB1 --network bsc
+
 var Token = artifacts.require("TheToken");
 var MasterChef = artifacts.require("MasterChefV2");
 var Timelock = artifacts.require("Timelock");
@@ -6,33 +9,33 @@ const web3ToWei = (amount) => web3.utils.toWei((amount).toString(), "ether");
 
 module.exports = function (deployer, network, accounts) {
     const DEV = accounts[0]; 
-    const VESTING = accounts[1];
     deployer.then(async () => {
         try {
             // DEPLOY token and timelock
-            await deployer.deploy(Timelock, DEV, 172800);
-            await deployer.deploy(Token);
+ //           await deployer.deploy(Timelock, DEV, 172800);
+//            await deployer.deploy(Token);
             
             // const TimelockInstance = await Timelock.deployed(); console.log(`TimelockInstance: ${TimelockInstance.address}`);
-            const TokenInstance = await Token.deployed(); console.log(`TokenInstance: ${TokenInstance.address}`)
+ //           const TokenInstance = await Token.deployed(); console.log(`TokenInstance: ${TokenInstance.address}`)
         
             // DEPLOY MASTERCHEF
             let block = await web3.eth.getBlock("latest");
             console.log('Minting will start at block: ' + block.number);
-            await deployer.deploy(MasterChef, TokenInstance.address, DEV, DEV, '1', block.number); 
-
+            // await deployer.deploy(MasterChef, TokenInstance.address, DEV, DEV, '1000000000000000000', 14138865); //block.number); 
+            await deployer.deploy(MasterChef, '0xF13e6278Da0717235BFC84D535C54461e957feED', DEV, DEV, '1000000000000000000', 14138865); //block.number); 
+            
             const MasterChefInstance = await MasterChef.deployed(); console.log(`MasterChefInsance: ${MasterChefInstance.address}`)
         
             // SET TIMELOCK MULTISIG ADMIN
             //await TimelockInstance.setPendingAdmin(GnosisWalletInstance.address, { from: DEV });
 
             // INITIAL Tokens
-            console.log(`Balance DEV before: ${await TokenInstance.balanceOf(DEV)}`)
-            await TokenInstance.mint(DEV, web3ToWei(1000000), { from: DEV }) // - TESTING
-            console.log(`Balance DEV after: ${await TokenInstance.balanceOf(DEV)}`)
+            //console.log(`Balance DEV before: ${await TokenInstance.balanceOf(DEV)}`)
+            //await TokenInstance.mint(DEV, web3ToWei(1000000), { from: DEV }) // - TESTING
+            //console.log(`Balance DEV after: ${await TokenInstance.balanceOf(DEV)}`)
 
             // TRANSFER OWNERSHIP TO MASTERCHEF
-            await TokenInstance.transferOwnership(MasterChefInstance.address, { from: DEV });
+            //await TokenInstance.transferOwnership(MasterChefInstance.address, { from: DEV });
 
             // TODO: add deployment of doubler
             // TODO: figure out how doubler and masterchef can both own token

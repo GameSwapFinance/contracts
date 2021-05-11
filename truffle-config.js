@@ -22,7 +22,7 @@
 // const infuraKey = "fj4jll3k.....";
 //
  const fs = require('fs');
- const mnemonic = fs.readFileSync(".secret").toString().trim();
+ const secretKey = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   /**
@@ -42,20 +42,36 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
     },
     testnet: {
-      provider: () => new HDWalletProvider(mnemonic, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      provider: () => new HDWalletProvider(secretKey, `https://data-seed-prebsc-1-s1.binance.org:8545`),
       network_id: 97,
       confirmations: 2,
       timeoutBlocks: 200,
       skipDryRun: true
     },
     bsc: {
-      provider: () => new HDWalletProvider(mnemonic, `https://bsc-dataseed1.binance.org`),
+      provider: () => new HDWalletProvider(secretKey, `https://bsc-dataseed1.binance.org`),
       network_id: 56,
       confirmations: 10,
       timeoutBlocks: 200,
       skipDryRun: false,
-      gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
+      gas: 5000000,           // Gas sent with each transaction (default: ~6700000)
       gasPrice: 10000000000,  // 20 gwei (in wei) (default: 100 gwei)
+    },
+    polygon: {
+      provider: () => new HDWalletProvider(secretKey, `https://rpc-mainnet.maticvigil.com/`),
+      network_id: 137,
+      confirmations: 1,
+      timeoutBlocks: 2000,
+      skipDryRun: false,
+      gas: 5000000,           // Gas sent with each transaction (default: ~6700000)
+      gasPrice: 10000000000,  // 20 gwei (in wei) (default: 100 gwei)
+    },
+    matic: {
+      provider: () => new HDWalletProvider(secretKey, `https://rpc-mumbai.matic.today`),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -123,5 +139,12 @@ module.exports = {
 
   db: {
     enabled: false
+  },
+
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    bscscan: '9MJ92AZG54K26SXB2HSPEAJDNXN9ZR6IGM',
   }
 };
