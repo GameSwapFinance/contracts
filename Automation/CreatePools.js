@@ -57,14 +57,15 @@ module.exports = async function (callback) {
         await CreatePool('0xf6a637525402643b0654a54bead2cb9a83c8b498',25,4);
         await CreatePool('0x019ba0325f1988213d448b3472fa1cf8d07618d7',24,4);
 
+        await CreatePool('0x3a3df212b7aa91aa0402b9035b098891d276572b', 10, 4) // Fish
+        await CreatePool('0xd86b5923f3ad7b585ed81b448170ae026c65ae9a', 10, 4) // Iron
+        await CreatePool('0x8a953cfe442c5e8855cc6c61b1293fa648bae472', 10, 4) // Polydoge
+        await CreatePool('0x8a953cfe442c5e8855cc6c61b1293fa648bae472', 10, 4) // Malt-DIA
+
         console.log('End pool deploy');
     }
     catch (err) {
         console.log('Error: ' + err);
     };
-
-
-    // await contract.add(10000, 0x4BEcDD1704e16962053792fd0d6Baa533Daaa702, 0, 1)
-
     callback();
 }

@@ -8,27 +8,26 @@ const web3ToWei = (amount) => web3.utils.toWei((amount).toString(), "ether");
 module.exports = function (deployer, network, accounts) {
     const DEV = accounts[0]; 
 
-    const blocksPerDay = 41000;
-    // 9,000 matic to give away
-    // blocks per week 288,000
-    // Rewards per block .03125
-    // .0069
+    const blocksPerDay = 38400;
+    // 850 tokens to give away
+    // blocks in period 268.800
+    // Rewards per block .0031622
 
-    const startblock = 15283985
-    const endblock = startblock + 288000;
+    const startblock = 16868421
+    const endblock   = startblock + 268800; // 7 days
 
     deployer.then(async () => {
         try {
 
             // Deploy chef
             await deployer.deploy(smartChef, 
-                '0x4BEcDD1704e16962053792fd0d6Baa533Daaa702', // STONKX
-                '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', // Matic
-                '31250000000000000',
+                '0x1F1b5ce5fEDb6F27Db51C4d5e885d952f8371257', // STONK Z
+                '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
+                '3720200000000000',
                 startblock,
                 endblock,
                 500, // 5% deposit fee
-                '0xFb546fAb48E1bF83b57Cb91F64E418419A975022' // Fee address
+                '0x3624F2f174da83094D921bC6723c517dF9E5D6bF' // Fee address
                 );
                 const ChefInstance = await smartChef.deployed(); console.log(`SmartChefInstance: ${ChefInstance.address}`)
         

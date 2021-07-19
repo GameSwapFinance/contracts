@@ -59,7 +59,7 @@ module.exports = {
       gasPrice: 10000000000,  // 20 gwei (in wei) (default: 100 gwei)
     },
     polygon: {
-      provider: () => new HDWalletProvider(secretKey, `https://rpc-mainnet.maticvigil.com/`),
+      provider: () => new HDWalletProvider(secretKey, `https://rpc-mainnet.maticvigil.com/v1/eee52352c49a763bacfd90f96146419f586a3129`),
       network_id: 137,
       confirmations: 1,
       timeoutBlocks: 2000,
