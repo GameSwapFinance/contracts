@@ -1026,30 +1026,36 @@ contract ERC20 is Context, IERC20 {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-// File: contracts/Stonky.sol
+// File: contracts/StonkToken.sol
 
 pragma solidity 0.6.12;
 
 
 
 // STONKY
-contract Stonky is Ownable, ERC20('Test STONKY', 'StonkyTest') {
-
+contract StonkToken is Ownable, ERC20 {
     // Dev address.
-    address public devaddr;
     uint256 public burnPercent;  //1e18 for 1% burn
+    mapping(address => bool) public minters;
 
-    constructor(
-        address _devaddr,
-        uint256 _burnPercent
-    ) public {
-        require(_burnPercent <= 10e18 && _burnPercent>=1e18 || _burnPercent == 0, 'burn: wut?');
-        devaddr = _devaddr;
+    constructor(string memory _name, string memory _symbol, uint256 _burnPercent, uint _initialSupply) public ERC20(_name, _symbol) {
+        require(_burnPercent <= 10e18 && _burnPercent>=1e16 || _burnPercent == 0, 'burn: wut?');
         burnPercent = _burnPercent;
+        _mint(msg.sender, _initialSupply);
+        minters[msg.sender] = true;
     }
 
-    function mint(address _to, uint256 _amount) public onlyOwner {
+    function mint(address _to, uint256 _amount) public {
+        require(minters[msg.sender], "!minter");
         _mint(_to, _amount);
+    }
+
+    function addMinter(address _minter) external onlyOwner {
+        minters[_minter] = true;
+    }
+
+    function removeMinter(address _minter) external onlyOwner {
+        minters[_minter] = false;
     }
 
     function transfer(address to, uint256 amount) override virtual public returns (bool) {
@@ -1068,9 +1074,8 @@ contract Stonky is Ownable, ERC20('Test STONKY', 'StonkyTest') {
     }
 
     // Update burnPercent by the previous dev.
-    function setBurnPercent(uint256 _burnPercent) public {
-        require(msg.sender == devaddr, "dev: wut?");
-        require(_burnPercent <= 10e18 && _burnPercent>=1e18 || _burnPercent == 0, 'burn: wut?');
+    function setBurnPercent(uint256 _burnPercent) public onlyOwner {
+        require(_burnPercent <= 10e18 && _burnPercent>=1e16 || _burnPercent == 0, 'burn: wut?');
         burnPercent = _burnPercent;
     }
 
@@ -1127,7 +1132,7 @@ contract StonkChef is Ownable, ReentrancyGuard {
     }
 
     // The STONK TOKEN!
-    Stonky public stonk;
+    StonkToken public stonk;
     // Dev address.
     address public devaddr;
     // Stonk tokens created per block.
@@ -1156,7 +1161,7 @@ contract StonkChef is Ownable, ReentrancyGuard {
     event RewardLockedUp(address indexed user, uint256 indexed pid, uint256 amountLockedUp);
 
     constructor(
-        Stonky _stonk,
+        StonkToken _stonk,
         address _feeAddress,
         uint256 _stonkPerBlock,
         uint256 _startBlock
@@ -1252,7 +1257,8 @@ contract StonkChef is Ownable, ReentrancyGuard {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 stonkReward = multiplier.mul(stonkPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-        stonk.mint(devaddr, stonkReward.div(10));
+        // Mint 50% to dev wallet to be used in flash pools as incentives, or burnt if not needed
+        stonk.mint(devaddr, stonkReward.div(2));
         stonk.mint(address(this), stonkReward);
         pool.accStonkPerShare = pool.accStonkPerShare.add(stonkReward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;

@@ -13,7 +13,7 @@ module.exports = function (deployer, network, accounts) {
     // blocks in period 268.800
     // Rewards per block .0031622
 
-    const startblock = 16868421
+    const startblock = 17425500
     const endblock   = startblock + 268800; // 7 days
 
     deployer.then(async () => {

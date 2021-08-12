@@ -170,7 +170,8 @@ contract StonkChef is Ownable, ReentrancyGuard {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 stonkReward = multiplier.mul(stonkPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-        stonk.mint(devaddr, stonkReward.div(10));
+        // Mint 50% to dev wallet to be used in flash pools as incentives, or burnt if not needed
+        stonk.mint(devaddr, stonkReward.div(2));
         stonk.mint(address(this), stonkReward);
         pool.accStonkPerShare = pool.accStonkPerShare.add(stonkReward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;

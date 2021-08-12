@@ -6,7 +6,7 @@ const web3ToWei = (amount) => web3.utils.toWei((amount).toString(), "ether");
 
 let mc = null;
 
-const contract_address = '0xd43439a5C9d0C5BC305dEFdf318dC56d9bE7F448'; // STONK-Z chef
+const contract_address = '0x68245a3783c9b7bf21B16510Ff930149201D00Fa'; // STONKShare chef v2
 
 async function CreatePool(address, alloc, fee, harvestLockSeconds){
     /*if(await mc.poolExistence(address))
@@ -44,20 +44,20 @@ module.exports = async function (callback) {
         // Create pools
         // Phase 1
         
-        await CreatePool('0x1F1b5ce5fEDb6F27Db51C4d5e885d952f8371257', 1000, 1.5, 0) // 0 StonkZ token 
-        await CreatePool('0x0652cf35852e8b56cda90e5da23ad32995b4fe96', 1000, 0, 0) // 1 StonkZ-USDC 
-         await CreatePool('0xc2132d05d31c914a87c6611c10748aeb04b58e8f', 50, 4, 0); // USDT 25% aloc, 4% fee, 14 hour harvest delay
-         await CreatePool('0x2791bca1f2de4661ed88a30c99a7a9449aa84174', 50, 4, 0); // USDC  25% aloc, 4% fee, 14 hour harvest delay
-         await CreatePool('0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', 50, 4, 0); // Wmatic 25% aloc, 4% fee, 14 hour harvest delay
-         await CreatePool('0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6', 50, 4, 0); // WBTC 25% aloc, 4% fee, 14 hour harvest delay
-         await CreatePool('0x7ceb23fd6bc0add59e62ac25578270cff1b9f619', 50, 4, 0); // WETH 25% aloc, 4% fee, 14 hour harvest delay
+        await CreatePool('0xcd7199ba48a75b8885cd3e916596472d1a5763b7', 500, 0.5, 0) // 0 StonkShare token 
+        await CreatePool('0x53565263dec7a2fab109f9b502792b8c80f70d42', 1000, 0, 0) // 1 StonkShare-USDC 
+        /*
+        await CreatePool('0xc2132d05d31c914a87c6611c10748aeb04b58e8f', 50, 4, 0); // USDT 25% aloc, 4% fee, 14 hour harvest delay
+        await CreatePool('0x2791bca1f2de4661ed88a30c99a7a9449aa84174', 50, 4, 0); // USDC  25% aloc, 4% fee, 14 hour harvest delay
+        await CreatePool('0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', 50, 4, 0); // Wmatic 25% aloc, 4% fee, 14 hour harvest delay
+        await CreatePool('0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6', 50, 4, 0); // WBTC 25% aloc, 4% fee, 14 hour harvest delay
+        await CreatePool('0x7ceb23fd6bc0add59e62ac25578270cff1b9f619', 50, 4, 0); // WETH 25% aloc, 4% fee, 14 hour harvest delay
         await CreatePool('0x8a953cfe442c5e8855cc6c61b1293fa648bae472', 50, 4, 0) // Polydoge
         await CreatePool('0x831753dd7087cac61ab5644b308642cc1c33dc13', 50, 4, 0); // Quick
         await CreatePool('0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', 50, 4, 0); // Dai
         await CreatePool('0x2cf7252e74036d1da831d11089d326296e64a728',50,4, 0); // USDC USDT
         await CreatePool('0xf6a637525402643b0654a54bead2cb9a83c8b498',50,4, 0); // WBTC USDC
         await CreatePool('0x6e7a5fafcec6bb1e78bae2a1f0b612012bf14827',50,4, 0); // Wmatic USDC
-        /*
         await CreatePool('0x019ba0325f1988213d448b3472fa1cf8d07618d7',24,4); // Quick WMatic
         await CreatePool('0x831753dd7087cac61ab5644b308642cc1c33dc13',23,4); // Quick
         */

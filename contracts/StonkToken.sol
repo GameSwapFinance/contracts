@@ -6,16 +6,14 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // STONKY
 contract StonkToken is Ownable, ERC20 {
     // Dev address.
-    address public devaddr;
     uint256 public burnPercent;  //1e18 for 1% burn
     mapping(address => bool) public minters;
 
-    constructor(string memory _name, string memory _symbol, address _devAddress, uint256 _burnPercent) public ERC20(_name, _symbol) {
-        require(_burnPercent <= 10e18 && _burnPercent>=1e18 || _burnPercent == 0, 'burn: wut?');
-        devaddr = _devAddress;
+    constructor(string memory _name, string memory _symbol, uint256 _burnPercent, uint _initialSupply) public ERC20(_name, _symbol) {
+        require(_burnPercent <= 10e18 && _burnPercent>=1e16 || _burnPercent == 0, 'burn: wut?');
         burnPercent = _burnPercent;
-        _mint(msg.sender, 10_420_000000_000000_000000);
-        minters[_devAddress] = true;
+        _mint(msg.sender, _initialSupply);
+        minters[msg.sender] = true;
     }
 
     function mint(address _to, uint256 _amount) public {
@@ -47,9 +45,8 @@ contract StonkToken is Ownable, ERC20 {
     }
 
     // Update burnPercent by the previous dev.
-    function setBurnPercent(uint256 _burnPercent) public {
-        require(msg.sender == devaddr, "dev: wut?");
-        require(_burnPercent <= 10e18 && _burnPercent>=1e18 || _burnPercent == 0, 'burn: wut?');
+    function setBurnPercent(uint256 _burnPercent) public onlyOwner {
+        require(_burnPercent <= 10e18 && _burnPercent>=1e16 || _burnPercent == 0, 'burn: wut?');
         burnPercent = _burnPercent;
     }
 

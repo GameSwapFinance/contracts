@@ -65,7 +65,7 @@ module.exports = {
       timeoutBlocks: 2000,
       networkCheckTimeout: 90000,
       skipDryRun: false,
-      gas: 5000000,           // Gas sent with each transaction (default: ~6700000)
+      gas: 20000000,           // Gas sent with each transaction (default: ~6700000)
       gasPrice: 10000000000,  // 20 gwei (in wei) (default: 100 gwei)
     },
     // Useful for testing. The `development` name is special - truffle uses it by default

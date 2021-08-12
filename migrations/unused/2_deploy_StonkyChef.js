@@ -4,9 +4,9 @@
 var Token = artifacts.require("Stonky");
 var MasterChef = artifacts.require("StonkChef");
 var Timelock = artifacts.require("Timelock");
-var FeeAddress = '0x3624F2f174da83094D921bC6723c517dF9E5D6bF';
-var StonkAddress = '0x1F1b5ce5fEDb6F27Db51C4d5e885d952f8371257';
-var TokensPerBlock = .05;
+var FeeAddress = '0x40764fc19cdd4F4Befe0182423E38E2556290ab0';
+var StonkAddress = '0xcd7199bA48A75b8885cD3E916596472d1a5763B7';
+var TokensPerBlock = .01;
 var StartBlockBuffer = 100;
 
 const web3ToWei = (amount) => web3.utils.toWei((amount).toString(), "ether");
@@ -20,12 +20,12 @@ module.exports = function (deployer, network, accounts) {
             //const TokenInstance = await Token.deployed(); console.log(`TokenInstance: ${TokenInstance.address}`);
 
             // Deploy timelock
-            // await deployer.deploy(Timelock, DEV, 21600); // six hours
-            // const TimelockInstance = await Timelock.deployed(); console.log(`TimelockInstance: ${TimelockInstance.address}`);
+            await deployer.deploy(Timelock, DEV, 21600); // six hours
+            const TimelockInstance = await Timelock.deployed(); console.log(`TimelockInstance: ${TimelockInstance.address}`);
 
             // DEPLOY MASTERCHEF
             let block = await web3.eth.getBlock("latest");
-            let startBlock = 16150000; 
+            let startBlock = 17257000; 
             console.log('Minting will start at block: ' + startBlock);
             // await deployer.deploy(MasterChef, TokenInstance.address, DEV, '0xFb546fAb48E1bF83b57Cb91F64E418419A975022', web3ToWei(.5), block.number); 
             await deployer.deploy(MasterChef, StonkAddress, FeeAddress, web3ToWei(TokensPerBlock), startBlock);
