@@ -10,7 +10,7 @@ module.exports = function (deployer, network, accounts) {
     deployer.then(async () => {
         try {
             // DEPLOY token and timelock
-            /* await deployer.deploy(Timelock, DEV, 21600); // six hours
+            await deployer.deploy(Timelock, DEV, 86400); // 24 hours
             await deployer.deploy(Token);
             
             const TimelockInstance = await Timelock.deployed(); console.log(`TimelockInstance: ${TimelockInstance.address}`);
@@ -19,10 +19,10 @@ module.exports = function (deployer, network, accounts) {
             // 340348 / 2 + 15013222 = 15184000
 
             // DEPLOY MASTERCHEF
-            let block = await web3.eth.getBlock("latest");
-            console.log('Minting will start at block: ' + block.number);
-            // await deployer.deploy(MasterChef, TokenInstance.address, DEV, '0xFb546fAb48E1bF83b57Cb91F64E418419A975022', web3ToWei(.5), block.number); 
-            await deployer.deploy(MasterChef, '0x4BEcDD1704e16962053792fd0d6Baa533Daaa702', DEV, '0xFb546fAb48E1bF83b57Cb91F64E418419A975022', web3ToWei(.5), 15184000);
+            // let block = await web3.eth.getBlock("latest");
+            console.log('Minting will start at block: ' + 18006684);
+            await deployer.deploy(MasterChef, TokenInstance.address, DEV, '0x8e09C494fb2a8f1aFdfFC36DCe6a35Ef1C2C8d5d', web3ToWei(.5), 18006684); 
+            // await deployer.deploy(MasterChef, '0x4BEcDD1704e16962053792fd0d6Baa533Daaa702', DEV, '0xFb546fAb48E1bF83b57Cb91F64E418419A975022', web3ToWei(.5), 15184000);
 
             const MasterChefInstance = await MasterChef.deployed(); console.log(`MasterChefInsance: ${MasterChefInstance.address}`)
         
