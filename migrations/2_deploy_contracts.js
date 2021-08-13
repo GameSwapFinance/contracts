@@ -14,7 +14,7 @@ module.exports = function (deployer, network, accounts) {
             await deployer.deploy(Token);
             
             const TimelockInstance = await Timelock.deployed(); console.log(`TimelockInstance: ${TimelockInstance.address}`);
-            const TokenInstance = await Token.deployed(); console.log(`TokenInstance: ${TokenInstance.address}`)*/
+            const TokenInstance = await Token.deployed(); console.log(`TokenInstance: ${TokenInstance.address}`);
         
             // 340348 / 2 + 15013222 = 15184000
 
